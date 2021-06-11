@@ -1,9 +1,11 @@
 from get_data import *
 from xls_functions import *
 import os
-datatime = '2021-06-01'
+# datatime = '2021-06-01'
+datatime = input("请输入需要导出的日期（日期格式为：2020-06-01）：")
 local_time = time_trans_stamp(datatime)
-print(datatime)
+print(f"正在查找{datatime}的新闻，请稍等.....")
+print('-----------------------------------')
 # local_time = 1622728266000  # 2021-6-3
 # local_time = 1622649600000
 # date = stamp_trans_time(local_time)[1] # 将查询的时间转为日期格式 2021-06-03

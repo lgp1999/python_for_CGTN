@@ -62,6 +62,7 @@ def get_data(date):
         for data in result:
             news_url = data['detailUrl']
             news_title = data['itemTitle']
+            print(news_title) #打印稿件标题
             video_length = data['videoLength']  # 视频时长
             # operate_time = data['operate_time'] # 发稿时间戳
             put_date = data['pubDate']  # 发稿时间戳
@@ -76,7 +77,7 @@ def get_data(date):
             # print(news_response.encoding)
             news_result = news_response.text
             reporter_name = get_name(news_result)
-            print(reporter_name)  # 显示打印记者字段
+            # print(reporter_name)  # 显示打印记者字段
 
             # 获取稿件的阅读数量
             view_url = 'http://nc.api.cportal.cctv.com/api/rest/clicknum'
