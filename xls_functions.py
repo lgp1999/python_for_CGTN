@@ -5,7 +5,7 @@ from xlutils.copy import copy
 
 def write_excel_xls(path, sheet_name, value):
     '''
-    向xls表格写入一行数据
+    新建一个xls表格和工作簿，写入一行数据并保存
     :param path: 文件路径
     :param sheet_name: 表格名称
     :param value: 写入表格中的内容
@@ -35,14 +35,14 @@ def write_excel_xls(path, sheet_name, value):
 
     for i in range(0, index):
         for j in range(0, len(value[i])):
-            sheet.write(i, j, value[i][j],style)  # 像表格中写入数据（对应的行和列）
+            sheet.write(i, j, value[i][j],style)  # 向表格中写入数据（对应的行和列）
     workbook.save(path)  # 保存工作簿
     print("xls格式表格写入数据成功！")
 
 
 def write_excel_xls_append(path, value):
     '''
-    向xls表格中追加内容
+    向xls表格中追加内容并保存
     :param path: 文件路径
     :param value: 追加内容
     :return:
