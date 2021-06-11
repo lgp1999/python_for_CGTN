@@ -8,22 +8,22 @@ from get_data import *
 import re
 import requests
 
-book_name_xls = 'xls格式测试工作簿.xls'
-sheet_name_xls = 'xls格式测试表'
-value_title = [["姓名", "性别", "年龄", "城市", "职业"], ]
-value1 = [["张三", "男", "19", "杭州", "研发工程师"],
-          ["李四", "男", "22", "北京", "医生"],
-          ["王五", "女", "33", "珠海", "出租车司机"], ]
-value2 = [["Tom", "男", "21", "西安", "测试工程师"],
-          ["Jones", "女", "34", "上海", "产品经理"],
-          ["Cat", "女", "56", "上海", "教师"], ]
-
-if os.path.exists(book_name_xls):
-    os.remove(book_name_xls)
-write_excel_xls(book_name_xls, sheet_name_xls, value_title)
-write_excel_xls_append(book_name_xls, value1)
-write_excel_xls_append(book_name_xls, value2)
-read_excel_xls(book_name_xls)
+# book_name_xls = 'xls格式测试工作簿.xls'
+# sheet_name_xls = 'xls格式测试表'
+# value_title = [["姓名", "性别", "年龄", "城市", "职业"], ]
+# value1 = [["张三", "男", "19", "杭州", "研发工程师"],
+#           ["李四", "男", "22", "北京", "医生"],
+#           ["王五", "女", "33", "珠海", "出租车司机"], ]
+# value2 = [["Tom", "男", "21", "西安", "测试工程师"],
+#           ["Jones", "女", "34", "上海", "产品经理"],
+#           ["Cat", "女", "56", "上海", "教师"], ]
+#
+# if os.path.exists(book_name_xls):
+#     os.remove(book_name_xls)
+# write_excel_xls(book_name_xls, sheet_name_xls, value_title)
+# write_excel_xls_append(book_name_xls, value1)
+# write_excel_xls_append(book_name_xls, value2)
+# read_excel_xls(book_name_xls)
 
 # url = 'http://api.cportal.cctv.com/api/rest/articleInfo/getScrollList?n=20&version=1&p=1&pubDate=1622728276000&app_version=810'
 # response = requests.get(url)
@@ -74,3 +74,13 @@ read_excel_xls(book_name_xls)
 # text ='（总台记者 贾延宁）<\/p><p><strong>此前消息：<\/strong><\/p><p><span style="color: rgb(0, 112, 192);"><strong>一架从乍得飞往巴黎航班疑似发现爆炸物<\/strong><\/span><\/p><p>据法国内政部3日下午发布的新闻公报，法航一架从乍得飞往巴黎的航班疑似有爆炸物。<\/p><p style="text-align: center;"><img src="https:\/\/p1.img.cctvpic.com\/cportal\/cnews-yz\/img\/2021\/06\/03\/1622734472693_906_800x954.jpg" localname="1622734472693_906_800x954.jpg" localpath="\/img\/2021\/06\/03\/" publishflag="" imginfo="" style="max-width: 100%" _src="https:\/\/p1.img.cctvpic.com\/cportal\/cnews-yz\/img\/2021\/06\/03\/1622734472693_906_800x954.jpg"><\/p><p><span style="font-size: 14px; color: rgb(127, 127, 127)'
 # res1 = get_name(text)
 # print(res1)
+
+str1 = '王玉国'
+str2 = None
+def stringCompare(str1, str2):
+    if str1 in str2:
+        return True
+    else:
+        return False
+a = stringCompare(str1,str2)
+print(a)
