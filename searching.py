@@ -18,5 +18,3 @@ else:
     title = [['Datetime', 'view', 'video', 'title', 'name', 'url']]
     write_excel_xls(filename, sheet_name, title)  # 创建表格并写入表头
     write_excel_xls_append(filename, data)  # 写入表格内容
-
-
