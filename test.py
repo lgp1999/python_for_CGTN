@@ -17,11 +17,12 @@ value1 = [["张三", "男", "19", "杭州", "研发工程师"],
 value2 = [["Tom", "男", "21", "西安", "测试工程师"],
           ["Jones", "女", "34", "上海", "产品经理"],
           ["Cat", "女", "56", "上海", "教师"], ]
+
 if os.path.exists(book_name_xls):
     os.remove(book_name_xls)
 write_excel_xls(book_name_xls, sheet_name_xls, value_title)
 write_excel_xls_append(book_name_xls, value1)
-# write_excel_xls_append(book_name_xls, value2)
+write_excel_xls_append(book_name_xls, value2)
 read_excel_xls(book_name_xls)
 
 # url = 'http://api.cportal.cctv.com/api/rest/articleInfo/getScrollList?n=20&version=1&p=1&pubDate=1622728276000&app_version=810'
