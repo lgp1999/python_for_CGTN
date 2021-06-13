@@ -80,7 +80,8 @@ def create_excel_xls(path, sheet_name='sheet1'):
         workbook = xlwt.Workbook(encoding='utf-8')  # 新建一个工作簿
         workbook.add_sheet(sheet_name)
         workbook.save(path)  # 保存工作簿
-        print(f'{path}创建成功')
+        print(f'工作簿《{path}》创建成功')
+        print(f'表格《{sheet_name}》创建成功')
 
 
 def create_sheet(path, sheet_name):
@@ -96,9 +97,10 @@ def create_sheet(path, sheet_name):
     sheets = workbook.sheet_names()  # 获取工作簿中的所有表格
     if sheet_name not in sheets:
         new_workbook.add_sheet(sheet_name)  # 在工作簿中新建一个表格
-        print(f'表格{sheet_name}创建成功，开始添加内容')
+        print(f'表格《{sheet_name}》创建成功')
+        print(f'开始向表格《{sheet_name}》添加内容')
     else:
-        print(f'表格{sheet_name}已存在,开始添加内容')
+        print(f'开始向表格《{sheet_name}》添加内容')
     new_workbook.save(path)
     return new_workbook
 
@@ -124,7 +126,7 @@ def write_excel_xls(path, sheet_name, value):
                 else:
                     sheet.write(i, j, value[i][j], get_style(font2=True))
         workbook.save(path)  # 保存工作簿
-        print(f"{sheet_name}表格写入数据成功！")
+        print(f"写入数据成功！")
     except Exception as e:
         print(e)
 
@@ -152,7 +154,7 @@ def write_excel_xls_append(path, sheet_name, value):
                 # 追加写入数据，注意是从i+rows_old行开始写入
                 new_worksheet.write(i + rows_old, j, value[i][j], get_style(font2=True))
         new_workbook.save(path)  # 保存工作簿
-        print(f"{sheet_name}表格【追加】写入数据成功！")
+        print(f"写入数据成功！")
     except Exception as e:
         print(e)
 
