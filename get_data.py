@@ -2,18 +2,29 @@ import time
 import requests
 import re
 
+def is_valid_date(date):
+    '''
+    判断是否是一个有效的日期字符串
+    :param date: 匹配字符串
+    :return: bool
+    '''
+    try:
+        time.strptime(date, "%Y-%m-%d")
+        return True
+    except ValueError:
+        return False
 
 def time_trans_stamp(date):
     '''
-        将输入的日期转换为时间戳,用于页面查询
+    将输入的日期转换为时间戳,用于页面查询
     :param date: 用户输入的日期
     :return:当前日期的凌晨0点的时间戳
     '''
     date1 = date + ' 00:00:00'
     # print(date1)
-    timeArray = time.strptime(date1, "%Y-%m-%d %H:%M:%S")
-    timeStamp = int(time.mktime(timeArray)) * 1000
-    return timeStamp
+    time_array = time.strptime(date1, "%Y-%m-%d %H:%M:%S")
+    time_stamp = int(time.mktime(time_array)) * 1000
+    return time_stamp
 
 
 def stamp_trans_time(date):
@@ -21,8 +32,9 @@ def stamp_trans_time(date):
     time_stamp = int(int(date) / 1000)  # 接口取出来的时间戳不知道为啥多出三个零，去掉后时间才能正常转换
     loc_time = time.localtime(time_stamp)
     datetime1 = time.strftime("%Y-%m-%d %H:%M:%S", loc_time)
-    datetime2 = time.strftime("%m-%d", loc_time)
-    return [datetime1, datetime2]
+    datetime2 = time.strftime("%Y-%m", loc_time)
+    datetime3 = time.strftime("%m-%d", loc_time)
+    return [datetime1, datetime2,datetime3]
 
 
 def get_name(text):
@@ -56,7 +68,7 @@ def str_compare(str1, str2):
 
 def get_data(date, author_name):
     '''
-        获取央视频app中时间链页面的某一天稿件数据
+    获取央视频app中时间链页面的某一天稿件数据
     :param date: 某一天的时间戳
     :param author_name: 要查找的记者名称
     :return: 稿件时间/阅读量/视频时长/标题/记者/稿件详情url
@@ -67,7 +79,6 @@ def get_data(date, author_name):
     }
     page = 0
     count = 0  # 用来计算天数
-    sum = 0  # 计算记者稿件数量
     datas = []
     while True:
         page += 1
@@ -89,7 +100,6 @@ def get_data(date, author_name):
                 if reporter_name:
                     compare = str_compare(author_name, reporter_name)
                     if compare:
-                        sum += 1 # 记者出现次数的总和
                         news_url = data['detailUrl']
                         news_title = data['itemTitle']
                         # print(news_title) # 打印稿件标题
@@ -113,14 +123,15 @@ def get_data(date, author_name):
                         datas.append(source)
 
         if len(result) == 0:
-            # break
             page = 0
             date += 86464000
             count += 1
         time.sleep(2)
         # 获取到数据为空时说明当天的稿件已经全部获取完毕，即该跳出循环
-        if count == 1:
+        if count == 3:
             break
+        # 调试代码，只获取1页20条的数据
+        # if page == 1:
+        #     break
     # print(datas)
-    explain = [f'{author_name}一共发布{sum}篇稿件']
-    return [datas,explain]
+    return datas
