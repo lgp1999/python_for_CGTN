@@ -95,7 +95,7 @@ def get_data(date, author_name):
                 # print(news_response.encoding) # 调试 查看返回结果的编码格式
                 news_result = news_response.text
                 reporter_name = get_name(news_result)
-                # print(reporter_name)  # 显示打印记者字段
+                print(reporter_name)  # 显示打印记者字段
                 if reporter_name:
                     compare = str_compare(author_name, reporter_name)
                     if compare:
@@ -105,7 +105,6 @@ def get_data(date, author_name):
                         # operate_time = data['operate_time'] # 发稿时间戳
                         put_date = data['pubDate']  # 发稿时间戳
                         put_time = stamp_trans_time(put_date)[0]  # 将发稿时间戳转换为北京时间
-                        print(put_time + '\t' + news_title)  # 打印稿件时间和标题
                         # print(news_title + '\t' + news_url + '\t' + put_time + '\t' + video_length)
                         # 获取稿件的阅读数量
                         view_url = 'http://nc.api.cportal.cctv.com/api/rest/clicknum'

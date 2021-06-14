@@ -1,6 +1,3 @@
-'''
-测试代码
-'''
 import os
 
 from xls_functions import *
@@ -8,21 +5,24 @@ from get_data import *
 import re
 import requests
 
-book_name_xls = 'xls格式测试工作簿.xls'
-sheet_name_xls = 'xls格式测试表'
-value_title = [["姓名", "性别", "年龄", "城市", "职业"], ]
+book_name_xls = '测试工作簿.xls'
+sheet_name_xls1 = '测试表1'
+sheet_name_xls2 = '测试表2'
+value_title1 = [["姓名", "性别", "年龄", "城市", "职业"]]
+value_title2= ["姓名", "性别", "年龄", "城市", "职业"]
 value1 = [["张三", "男", "19", "杭州", "研发工程师"],
           ["李四", "男", "22", "北京", "医生"],
-          ["王五", "女", "33", "珠海", "出租车司机"], ]
+          ["王五", "女", "33", "珠海", "出租车司机"]]
 value2 = [["Tom", "男", "21", "西安", "测试工程师"],
           ["Jones", "女", "34", "上海", "产品经理"],
-          ["Cat", "女", "56", "上海", "教师"], ]
+          ["Cat", "女", "56", "上海", "教师"]]
 
-create_excel_xls(book_name_xls)
-create_sheet(book_name_xls,sheet_name_xls)
-write_excel_xls_append(book_name_xls,sheet_name_xls,value1)
-write_excel_xls(book_name_xls,sheet_name_xls,value2)
-
+# value1.insert(0,value_title2)
+# value2.insert(0,value_title2)
+# write_excel_xls(book_name_xls,sheet_name_xls1,value_title1)
+# write_excel_xls_append(book_name_xls,sheet_name_xls1,value2)
+# write_excel_xls(book_name_xls,sheet_name_xls2,value_title2)
+# write_excel_xls_append(book_name_xls,sheet_name_xls2,value1)
 
 # url = 'http://api.cportal.cctv.com/api/rest/articleInfo/getScrollList?n=20&version=1&p=1&pubDate=1622728276000&app_version=810'
 # response = requests.get(url)
