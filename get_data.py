@@ -26,7 +26,6 @@ def time_trans_stamp(date):
     time_stamp = int(time.mktime(time_array)) * 1000
     return time_stamp
 
-
 def stamp_trans_time(date):
     # 将时间戳字符串转换成时间类型,返回两种时间格式
     time_stamp = int(int(date) / 1000)  # 接口取出来的时间戳不知道为啥多出三个零，去掉后时间才能正常转换
@@ -35,7 +34,6 @@ def stamp_trans_time(date):
     datetime2 = time.strftime("%Y-%m", loc_time)
     datetime3 = time.strftime("%m-%d", loc_time)
     return [datetime1, datetime2,datetime3]
-
 
 def get_name(text):
     '''
