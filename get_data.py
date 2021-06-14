@@ -89,25 +89,24 @@ def get_data(date, author_name):
             for data in result:
                 # 获取稿件详情，并取得记者名称
                 item_id = data['itemID']  # 稿件id，用于获取稿件详情
-                # print(news_title + '\t' + news_url + '\t' + put_time + '\t' + video_length)
                 item_url = f'http://api.cportal.cctv.com/api/rest/articleInfo'
                 news_response = requests.get(item_url, params={'id': item_id, 'cb': 'test.setMyArticalContent'})
                 news_response.encoding = 'unicode_escape'  # 获取到的内容是Unicode编码，将其反编码显示汉字
                 # print(news_response.encoding) # 调试 查看返回结果的编码格式
                 news_result = news_response.text
                 reporter_name = get_name(news_result)
-                print(reporter_name)  # 显示打印记者字段
+                # print(reporter_name)  # 显示打印记者字段
                 if reporter_name:
                     compare = str_compare(author_name, reporter_name)
                     if compare:
                         news_url = data['detailUrl']
                         news_title = data['itemTitle']
-                        # print(news_title) # 打印稿件标题
                         video_length = data['videoLength']  # 视频时长
                         # operate_time = data['operate_time'] # 发稿时间戳
                         put_date = data['pubDate']  # 发稿时间戳
                         put_time = stamp_trans_time(put_date)[0]  # 将发稿时间戳转换为北京时间
-                        # print(put_time) # 输出发稿时间
+                        print(put_time + '\t' + news_title)  # 打印稿件时间和标题
+                        # print(news_title + '\t' + news_url + '\t' + put_time + '\t' + video_length)
                         # 获取稿件的阅读数量
                         view_url = 'http://nc.api.cportal.cctv.com/api/rest/clicknum'
                         view_params = {
