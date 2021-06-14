@@ -1,4 +1,5 @@
 import os
+import sys
 import tkinter
 from tkinter import messagebox
 import xlrd
@@ -133,7 +134,7 @@ def write_excel_xls(path, sheet_name, value):
         root = tkinter.Tk()
         root.withdraw()
         messagebox.showinfo("ERROR", f'{e}')
-
+        sys.exit()
 
 def write_excel_xls_append(path, sheet_name, value):
     '''
