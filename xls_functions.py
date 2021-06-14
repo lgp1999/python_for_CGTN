@@ -1,5 +1,6 @@
 import os
-
+import tkinter
+from tkinter import messagebox
 import xlrd
 import xlwt
 from xlutils.copy import copy
@@ -128,7 +129,10 @@ def write_excel_xls(path, sheet_name, value):
         workbook.save(path)  # 保存工作簿
         print(f"写入数据成功！")
     except Exception as e:
-        print(e)
+        # 异常弹窗提示
+        root = tkinter.Tk()
+        root.withdraw()
+        messagebox.showinfo("ERROR", f'{e}')
 
 
 def write_excel_xls_append(path, sheet_name, value):
@@ -156,7 +160,10 @@ def write_excel_xls_append(path, sheet_name, value):
         new_workbook.save(path)  # 保存工作簿
         print(f"写入数据成功！")
     except Exception as e:
-        print(e)
+        # 异常弹窗提示
+        root = tkinter.Tk()
+        root.withdraw()
+        messagebox.showinfo("ERROR", f'{e}')
 
 def read_excel_xls(path):
     '''
