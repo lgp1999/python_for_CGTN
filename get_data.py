@@ -64,11 +64,11 @@ def str_compare(str1, str2):
         return False
 
 
-def get_data(date, author_name):
+def get_data(date, author_names):
     '''
     获取央视频app中时间链页面的某一天稿件数据
     :param date: 某一天的时间戳
-    :param author_name: 要查找的记者名称
+    :param author_names: 要查找的所有记者名称
     :return: 稿件时间/阅读量/视频时长/标题/记者/稿件详情url
     '''
     url = 'http://api.cportal.cctv.com/api/rest/articleInfo/getScrollList'
@@ -77,7 +77,7 @@ def get_data(date, author_name):
     }
     page = 0
     count = 0  # 用来计算天数
-    datas = []
+    datas = {}
     while True:
         page += 1
         response = requests.get(url, params={'n': '20', 'version': '1', 'p': page, 'pubDate': date}, headers=headers)
@@ -91,32 +91,34 @@ def get_data(date, author_name):
                 news_response = requests.get(item_url, params={'id': item_id, 'cb': 'test.setMyArticalContent'})
                 news_response.encoding = 'unicode_escape'  # 获取到的内容是Unicode编码，将其反编码显示汉字
                 # print(news_response.encoding) # 调试 查看返回结果的编码格式
-                news_result = news_response.text
-                reporter_name = get_name(news_result)
+                news_result = news_response.text  # 获取接口返回的文本
+                reporter_name = get_name(news_result)  # 获取文本匹配的（总台记者|总台央视记者）字符
                 print(reporter_name)  # 显示打印记者字段
+                # 记者名字字符存在
                 if reporter_name:
-                    compare = str_compare(author_name, reporter_name)
-                    if compare:
-                        news_url = data['detailUrl']
-                        news_title = data['itemTitle']
-                        video_length = data['videoLength']  # 视频时长
-                        # operate_time = data['operate_time'] # 发稿时间戳
-                        put_date = data['pubDate']  # 发稿时间戳
-                        put_time = stamp_trans_time(put_date)[0]  # 将发稿时间戳转换为北京时间
-                        # print(news_title + '\t' + news_url + '\t' + put_time + '\t' + video_length)
-                        # 获取稿件的阅读数量
-                        view_url = 'http://nc.api.cportal.cctv.com/api/rest/clicknum'
-                        view_params = {
-                            'itype': 'news',
-                            'id': item_id,
-                            'cd': 'test.readCountDataSuccess'
-                        }
-                        view_response = requests.get(view_url, params=view_params)
-                        view_result = view_response.json()['data']['vc']  # 阅读量数据
-                        source = [put_time, view_result, video_length, news_title, reporter_name,
-                                  news_url]  # 将一个稿件里的需要的数据放入一个列表
-                        print(source)
-                        datas.append(source)
+                    for author_name in author_names:
+                        compare = str_compare(author_name, reporter_name)
+                        if compare:
+                            news_url = data['detailUrl']
+                            news_title = data['itemTitle']
+                            video_length = data['videoLength']  # 视频时长
+                            # operate_time = data['operate_time'] # 发稿时间戳
+                            put_date = data['pubDate']  # 发稿时间戳
+                            put_time = stamp_trans_time(put_date)[0]  # 将发稿时间戳转换为北京时间
+                            # print(news_title + '\t' + news_url + '\t' + put_time + '\t' + video_length)
+                            # 获取稿件的阅读数量
+                            view_url = 'http://nc.api.cportal.cctv.com/api/rest/clicknum'
+                            view_params = {
+                                'itype': 'news',
+                                'id': item_id,
+                                'cd': 'test.readCountDataSuccess'
+                            }
+                            view_response = requests.get(view_url, params=view_params)
+                            view_result = view_response.json()['data']['vc']  # 阅读量数据
+                            source = [put_time, view_result, video_length, news_title, reporter_name,
+                                      news_url]  # 将一个稿件里的需要的数据放入一个列表
+                            # print(source)
+                            datas[author_name] = [source]
 
         if len(result) == 0:
             page = 0
@@ -127,7 +129,7 @@ def get_data(date, author_name):
         if count == 3:
             break
         # 调试代码，只获取1页20条的数据
-        # if page == 1:
-        #     break
-    # print(datas)
+        if page == 1:
+            break
+    print(datas)
     return datas
