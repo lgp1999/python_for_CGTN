@@ -1,8 +1,8 @@
 from get_data import *
 from xls_functions import *
 
-datetime = '2021-06-13'
-# datetime = input("请输入需要导出的日期（日期格式为：2021-06-01）：")
+# datetime = '2021-06-13'
+datetime = input("请输入需要导出的日期（日期格式为：2021-06-01）：")
 date_format = is_valid_date(datetime)
 while True:
     if date_format:
