@@ -2,6 +2,7 @@ import time
 import requests
 import re
 
+
 def is_valid_date(date):
     '''
     判断是否是一个有效的日期字符串
@@ -13,6 +14,7 @@ def is_valid_date(date):
         return True
     except ValueError:
         return False
+
 
 def time_trans_stamp(date):
     '''
@@ -26,6 +28,7 @@ def time_trans_stamp(date):
     time_stamp = int(time.mktime(time_array)) * 1000
     return time_stamp
 
+
 def stamp_trans_time(date):
     # 将时间戳字符串转换成时间类型,返回两种时间格式
     time_stamp = int(int(date) / 1000)  # 接口取出来的时间戳不知道为啥多出三个零，去掉后时间才能正常转换
@@ -33,7 +36,8 @@ def stamp_trans_time(date):
     datetime1 = time.strftime("%Y-%m-%d %H:%M:%S", loc_time)
     datetime2 = time.strftime("%Y-%m", loc_time)
     datetime3 = time.strftime("%m-%d", loc_time)
-    return [datetime1, datetime2,datetime3]
+    return [datetime1, datetime2, datetime3]
+
 
 def get_name(text):
     '''
@@ -78,6 +82,9 @@ def get_data(date, author_names):
     page = 0
     count = 0  # 用来计算天数
     datas = {}
+    for author_name in author_names:
+        datas[author_name] = []
+    # print(f"初始的：{datas}")
     while True:
         page += 1
         response = requests.get(url, params={'n': '20', 'version': '1', 'p': page, 'pubDate': date}, headers=headers)
@@ -87,22 +94,22 @@ def get_data(date, author_names):
             for data in result:
                 # 获取稿件详情，并取得记者名称
                 item_id = data['itemID']  # 稿件id，用于获取稿件详情
+                news_title = data['itemTitle']
                 item_url = f'http://api.cportal.cctv.com/api/rest/articleInfo'
                 news_response = requests.get(item_url, params={'id': item_id, 'cb': 'test.setMyArticalContent'})
                 news_response.encoding = 'unicode_escape'  # 获取到的内容是Unicode编码，将其反编码显示汉字
                 # print(news_response.encoding) # 调试 查看返回结果的编码格式
                 news_result = news_response.text  # 获取接口返回的文本
                 reporter_name = get_name(news_result)  # 获取文本匹配的（总台记者|总台央视记者）字符
-                print(reporter_name)  # 显示打印记者字段
+                print(news_title , ' ' , reporter_name)  # 显示打印记者字段
                 # 记者名字字符存在
                 if reporter_name:
                     for author_name in author_names:
-                        compare = str_compare(author_name, reporter_name)
+                        compare = str_compare(author_name, reporter_name)  # 查询记者名字是否在获取到的文本中
                         if compare:
                             news_url = data['detailUrl']
-                            news_title = data['itemTitle']
+                            # news_title = data['itemTitle']
                             video_length = data['videoLength']  # 视频时长
-                            # operate_time = data['operate_time'] # 发稿时间戳
                             put_date = data['pubDate']  # 发稿时间戳
                             put_time = stamp_trans_time(put_date)[0]  # 将发稿时间戳转换为北京时间
                             # print(news_title + '\t' + news_url + '\t' + put_time + '\t' + video_length)
@@ -117,9 +124,9 @@ def get_data(date, author_names):
                             view_result = view_response.json()['data']['vc']  # 阅读量数据
                             source = [put_time, view_result, video_length, news_title, reporter_name,
                                       news_url]  # 将一个稿件里的需要的数据放入一个列表
-                            # print(source)
-                            datas[author_name] = [source]
-
+                            print(source)
+                            datas[author_name].append(source)
+                            # print(f"获取的：{datas}")
         if len(result) == 0:
             page = 0
             date += 86464000
@@ -129,7 +136,7 @@ def get_data(date, author_names):
         if count == 3:
             break
         # 调试代码，只获取1页20条的数据
-        if page == 1:
-            break
-    print(datas)
+        # if page == 1:
+        #     break
+    # print(datas)
     return datas
