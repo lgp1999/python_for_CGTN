@@ -129,9 +129,10 @@ def get_data(datetime, author_names,date):
                             print(source)
                             datas.append(source)
                             # print(f"获取的：{datas}")
+                            break
         if len(result) == 0:
             page = 0
-            date += 86464000
+            datetime += 86464000
             count += 1
         time.sleep(2)
         # 获取到数据为空时说明当天的稿件已经全部获取完毕，即该跳出循环
@@ -140,5 +141,5 @@ def get_data(datetime, author_names,date):
         # 调试代码，只获取1页20条的数据
         # if page == 1:
         #     break
-    print(datas)
+    # print(datas)
     return datas
