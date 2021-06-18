@@ -68,11 +68,12 @@ def str_compare(str1, str2):
         return False
 
 
-def get_data(date, author_names):
+def get_data(datetime, author_names,date):
     '''
     获取央视频app中时间链页面的某一天稿件数据
-    :param date: 某一天的时间戳
+    :param datetime: 某一天的时间戳
     :param author_names: 要查找的所有记者名称
+    :type date: 查询天数
     :return: 稿件时间/阅读量/视频时长/标题/记者/稿件详情url
     '''
     url = 'http://api.cportal.cctv.com/api/rest/articleInfo/getScrollList'
@@ -81,13 +82,14 @@ def get_data(date, author_names):
     }
     page = 0
     count = 0  # 用来计算天数
-    datas = {}
-    for author_name in author_names:
-        datas[author_name] = []
-    # print(f"初始的：{datas}")
+    # datas = {}
+    # for author_name in author_names:
+    #     datas[author_name] = []
+    # # print(f"初始的：{datas}")
+    datas = []
     while True:
         page += 1
-        response = requests.get(url, params={'n': '20', 'version': '1', 'p': page, 'pubDate': date}, headers=headers)
+        response = requests.get(url, params={'n': '20', 'version': '1', 'p': page, 'pubDate': datetime}, headers=headers)
         result = response.json()['itemList']
         # print(result)
         if result:
@@ -125,7 +127,7 @@ def get_data(date, author_names):
                             source = [put_time, view_result, video_length, news_title, reporter_name,
                                       news_url]  # 将一个稿件里的需要的数据放入一个列表
                             print(source)
-                            datas[author_name].append(source)
+                            datas.append(source)
                             # print(f"获取的：{datas}")
         if len(result) == 0:
             page = 0
@@ -133,10 +135,10 @@ def get_data(date, author_names):
             count += 1
         time.sleep(2)
         # 获取到数据为空时说明当天的稿件已经全部获取完毕，即该跳出循环
-        if count == 3:
+        if count == date:
             break
         # 调试代码，只获取1页20条的数据
         # if page == 1:
         #     break
-    # print(datas)
+    print(datas)
     return datas
