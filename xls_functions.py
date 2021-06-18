@@ -82,8 +82,7 @@ def create_excel_xls(path, sheet_name='sheet1'):
         workbook = xlwt.Workbook(encoding='utf-8')  # 新建一个工作簿
         workbook.add_sheet(sheet_name)
         workbook.save(path)  # 保存工作簿
-        print(f'工作簿《{path}》创建成功')
-        print(f'表格《{sheet_name}》创建成功')
+        print(f'工作簿《{path}》表格《{sheet_name}》创建成功')
 
 
 def create_sheet(path, sheet_name):
@@ -106,12 +105,12 @@ def create_sheet(path, sheet_name):
     new_workbook.save(path)
     return new_workbook
 
-def write_excel_xls(path, sheet_name, value):
+def write_excel_xls(path, value, sheet_name='sheet1'):
     '''
     打开一张表格，在表格最顶行插入value数据并保存
     :param path: 文件路径及名称
-    :param sheet_name: 表格名称
     :param value: 写入表格中的内容
+    :param sheet_name: 表格名称,默认为sheet1
     :return:修改后的工作簿
     '''
 
@@ -136,7 +135,7 @@ def write_excel_xls(path, sheet_name, value):
         messagebox.showinfo("ERROR", f'{e}')
         sys.exit()
 
-def write_excel_xls_append(path, sheet_name, value):
+def write_excel_xls_append(path, value, sheet_name='sheet1'):
     '''
     向xls表格中追加value内容并保存（此方法会导致表格中原来数据的样式被初始化）
     :param path: 文件路径
