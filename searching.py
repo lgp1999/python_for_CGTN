@@ -14,7 +14,7 @@ while True:
 date = int(input("请输入要查询的天数（不超过30天）："))
 if date > 30:
     date = int(input("查询日期不可超过30天，请重新输入："))
-stop_time = local_time + 86400000 * date  # 截止日期
+stop_time = local_time + 86400000 * (date - 1)  # 截止日期
 stop_local_time = stamp_trans_time(stop_time)[2]
 
 author_names = []
@@ -29,7 +29,7 @@ while True:
 if len(author_names) == 0:
     author_names = ['邓宗宇', '江华', '李冠男', '李耀洋', '王玉国', '魏帆', '徐公正', '邹合义', '张颖', '李春元', '徐明', '马瑾瑾', '郝晓丽', '薛婧萌', '李长皓',
                     '余鹏', '朱赫', '杨春', '白桦', '侯茂华', '孔琳琳', '田晓春', '王楠', '王璇', '张赫', '雷昊', '康玉斌', '陈明磊', '林晖', '梁弢',
-                    '康炘冬', '贾延宁', '阮佳闻','宋承杰','张婧昊','郑治','时光','赵洪超','殷欣','易歆']
+                    '康炘冬', '贾延宁', '阮佳闻', '宋承杰', '张婧昊', '郑治', '时光', '赵洪超', '殷欣', '易歆']
 
 filename = f'{datetime}至{stop_local_time}.xls'
 # filename = '2021-06-01至06-03.xls'
